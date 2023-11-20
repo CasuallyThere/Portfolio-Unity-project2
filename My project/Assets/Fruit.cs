@@ -10,24 +10,37 @@ public class Fruit : MonoBehaviour
     private Transform fruitPos;
     private Rigidbody2D rigid2d;
     private bool checktime = false;
+    private GameObject player;
+    private bool mergeCreated = false;
+    
+
+    //Change this for each fruit
+    [SerializeField]
+    public int FruitNo = -1;
+
             
             
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Bandaid fix
+        if (transform.position.y<2.8){
+            mergeCreated = true;
+        }
     }
 
     void Awake(){
         fruitPos = GetComponent<Transform>();
         rigid2d = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Controller");
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!dropped)
+        if(!dropped && !mergeCreated)
         {
             //Controller is player character
             fruitPos.position = Controller.xPos;
@@ -50,8 +63,6 @@ public class Fruit : MonoBehaviour
         }
 
         
-
-
     }
 
     IEnumerator checkEnd(){
@@ -60,6 +71,24 @@ public class Fruit : MonoBehaviour
 
 
     }
+    private void OnCollisionEnter2D(Collision2D collision){
+        //Lots of tags I guess
+
+        if (collision.gameObject.tag == gameObject.tag ){
+            //Give infor to controller for merging
+            Controller.combinePos = fruitPos.position;
+            Controller.Combine = true;
+            Controller.mergeNo = FruitNo;
+            
+           
+            Destroy(gameObject);
+            
+
+        }
+
+    }
+
+    
 
     // //Collision
      void OnTriggerStay2D(Collider2D collision){

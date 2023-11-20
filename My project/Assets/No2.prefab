@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6850539087130407440}
   m_Layer: 0
   m_Name: No2
-  m_TagString: Fruit
+  m_TagString: Fruit2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,3 +134,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc45a4982bda8ab4fbbc9e80e7197f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FruitNo: 1

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -10,9 +11,15 @@ public class Controller : MonoBehaviour
     static public bool spawned = false;
     static public Vector2 xPos;
 
+    //Merge related variables
+    static public Vector2 combinePos;
+    static public bool Combine = false;
+    static public int mergeNo = 0;
+    
+
     [SerializeField]
     public float maxSpawnTimer = 2.0f;
-    
+
     public float spawnTimer = 0.0f;
 
 
@@ -28,6 +35,7 @@ public class Controller : MonoBehaviour
     {   
         if (maxSpawnTimer <= spawnTimer){
         Drop();
+        spawnTimer = 0.0f;
         }
 
         if (Input.GetKey("a")){
@@ -47,7 +55,20 @@ public class Controller : MonoBehaviour
 
         //Tell fruit where player is
         xPos = transform.position;
+        if (!spawned){
         spawnTimer += Time.deltaTime;
+
+        }
+        //Merge all fruits that are in contact
+        mergeFruits();
+    }
+
+    void mergeFruits(){
+        if (Combine && mergeNo < fruitsDroppable.Length - 1){
+
+            Combine = false;
+            Instantiate(fruitsDroppable[mergeNo+1], combinePos, Quaternion.identity);
+        }
     }
 
     void Drop(){
@@ -55,11 +76,11 @@ public class Controller : MonoBehaviour
             //Quarter ident is 0 rotat
             Instantiate(fruitsDroppable[Random.Range(0, fruitsDroppable.Length )], transform.position, Quaternion.identity);
             spawned = true;
-            spawnTimer = 0.0f;
+            
 
         }
 
     }
 
-   
+    
 }
